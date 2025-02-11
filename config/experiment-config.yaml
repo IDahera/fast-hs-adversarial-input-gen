@@ -1,0 +1,173 @@
+default: &default
+  gradient-factor: 1.0
+  num-neurons: 5
+  iterations: 5
+  samples: 9000
+  sus-metric: ochiai
+  results-dir: "results-adv-gen/"
+  print-images: True
+  verbose: False
+
+  skip-mnist-dense8x20: True
+  skip-mnist-dense10x100: True
+
+  mnist-dense8x20-layer-config: 1 # DeepFault Ref Model
+  mnist-dense10x100-layer-config: 1 # DeepFault Ref Model
+  mnist-dense-layer-config: 1
+  mnist-conv-layer-config: 1
+
+  skip-mnist-dense: False
+  skip-mnist-conv: False
+
+  fmnist-dense-layer-config: 1
+  fmnist-conv-layer-config: 1
+
+  skip-fmnist-dense: False
+  skip-fmnist-conv: False
+
+  cifar10-mobilenet-layer-config: 1
+  cifar10-squeezenet-layer-config: 1
+
+  skip-cifar10-mobilenet: False
+  skip-cifar10-squeezenet: False
+
+deepfault-ref: &deepfault-ref
+  gradient-factor: 1.0
+  num-neurons: 10
+  iterations: 1
+  samples: 100
+  sus-metric: tarantula
+  results-dir: "results-adv-gen-ref/"
+  print-images: False
+  verbose: False
+
+  skip-mnist-dense8x20: False
+  skip-mnist-dense10x100: False
+
+  mnist-dense8x20-layer-config: 1 # DeepFault Ref Model
+  mnist-dense10x100-layer-config: 1 # DeepFault Ref Model
+  mnist-dense-layer-config: 1
+  mnist-conv-layer-config: 1
+  
+  skip-mnist-dense: True
+  skip-mnist-conv: True
+
+  fmnist-dense-layer-config: 1
+  fmnist-conv-layer-config: 1
+
+  skip-fmnist-dense: True
+  skip-fmnist-conv: True
+
+  cifar10-mobilenet-layer-config: 1
+  cifar10-squeezenet-layer-config: 1
+
+  skip-cifar10-mobilenet: True
+  skip-cifar10-squeezenet: True
+
+
+######################### Experiment Configurations #########################
+
+# Research Question 1: Performance using different layer configurations
+experiment-layer-variations:
+  # Mini Models
+  case-0:
+    <<: *default
+    skip-mnist-dense: True
+    skip-mnist-conv: True
+    skip-fmnist-dense: True
+    skip-fmnist-conv: True
+
+    skip-cifar10-mobilenet: False
+    skip-cifar10-squeezenet: False
+
+    cifar10-mobilenet-layer-config: 1
+    cifar10-squeezenet-layer-config: 1
+
+  # Roughly half-sized models
+  case-1:
+    <<: *default
+    skip-mnist-dense: True
+    skip-mnist-conv: True
+    skip-fmnist-dense: True
+    skip-fmnist-conv: True
+
+    skip-cifar10-mobilenet: False
+    skip-cifar10-squeezenet: False
+
+    cifar10-mobilenet-layer-config: 2
+    cifar10-squeezenet-layer-config: 2
+
+  # Entire models
+  case-2:
+    <<: *default
+    skip-mnist-dense: True
+    skip-mnist-conv: True
+    skip-fmnist-dense: True
+    skip-fmnist-conv: True
+    skip-cifar10-mobilenet: False
+    skip-cifar10-squeezenet: False
+
+    cifar10-mobilenet-layer-config: 3
+    cifar10-squeezenet-layer-config: 3
+
+
+# Research Question 2: Performance of DeepFault Ref Model
+## Experiment Configurations for DeepFault Ref Model
+experiment-ref-model:
+  case-1:
+    <<: *deepfault-ref
+  case-2:
+    <<: *deepfault-ref
+    samples: 1000
+  case-3:
+    <<: *deepfault-ref
+    samples: 10000
+  case-4:
+    <<: *deepfault-ref
+    mnist-dense8x20-layer-config: 2 # DeepFault Ref Model
+    mnist-dense10x100-layer-config: 2 # DeepFault Ref Model
+  case-5:
+    <<: *deepfault-ref
+    samples: 1000
+    mnist-dense8x20-layer-config: 2 # DeepFault Ref Model
+    mnist-dense10x100-layer-config: 2 # DeepFault Ref Model
+  case-6:
+    <<: *deepfault-ref
+    samples: 10000
+    mnist-dense8x20-layer-config: 2 # DeepFault Ref Model
+    mnist-dense10x100-layer-config: 2 # DeepFault Ref Model
+
+
+# Research Question 3:
+experiment-num-neurons:
+  case-1:
+    <<: *default
+    num-neurons: 10
+  case-2:
+    <<: *default
+    num-neurons: 50
+
+experiment-iterations:
+  case-0:
+    <<: *default
+    iterations: 1
+  case-1:
+    <<: *default
+    iterations: 10
+
+experiment-gradient-factor:
+  case-0:
+    <<: *default
+    gradient-factor: 1
+  case-1:
+    <<: *default
+    gradient-factor: 5
+
+
+experiment-sus-metric:
+  case-0:
+    <<: *default
+    sus-metric: ochiai
+  case-1:
+    <<: *default
+    sus-metric: tarantula

@@ -1,0 +1,18 @@
+epochs: 5
+
+# DeepFault Reference model
+mnist-dense8x20: "models/mnist-dense8x20.pth"
+mnist-dense10x100: "models/mnist-dense10x100.pth"
+
+mnist-dense: "models/mnist-dense.pth"
+mnist-conv: "models/mnist-conv.pth"
+
+fmnist-dense: "models/fmnist-dense.pth"
+fmnist-conv: "models/fmnist-conv.pth"
+
+cifar10-mobilenet: "models/cifar10-mobilenet-v3-small.pth"
+cifar10-squeezenet: "models/cifar10-squeezenet.pth"
+
+
+
+
